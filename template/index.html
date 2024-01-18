@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> Login </title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login.css') }}">
+    <script >
+      
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Enter your username</h1>
+      <form method="POST" action="{{ url_for('login') }}">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required autocomplete="off">
+        <button type="submit" >Login</button>
+      </form>
+      <div class="error-message">
+        {% if error_message %}
+          <p>{{ error_message }}</p>
+        {% endif %}
+      </div>
+    </div>
+  </body>
+</html>
