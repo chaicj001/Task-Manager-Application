@@ -95,6 +95,21 @@ def edit_check_task():
     cursor.close()
     return jsonify(data)
     
+@app.route('/edit_task', methods=['POST'])
+def edit_task():
+    id = request.form.get('task_id')
+    task = request.form.get('task_name')
+    desc = request.form.get('task_description')
+    username = session['username']
+    due = request.form.get('task_due_date')
+    status= request.form.get('task_status')
+    priority = request.form.get('task_priority') 
+    app.logger.info(f'Task: {task}, Description: {desc}, User: {username}, task_id: {id}')   
+    cursor = mydb.cursor()
+    cursor.execute('UPDATE task SET task_name = %s, task_description = %s, task_created_by = %s, task_due_by = %s, task_status = %s, task_priority = %s WHERE task_id = %s', (task, desc ,username, due, status, priority, id))
+    mydb.commit()
+    cursor.close()
+    return redirect(url_for('lobby'))
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

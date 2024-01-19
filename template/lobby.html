@@ -61,6 +61,7 @@
             <label for="task-priority">Priority:</label>
             <select name="task_priority" id="task_priority">
               <option value="Urgent">Urgent</option>
+              <option value="High">High</option>
               <option value="Normal">Normal</option>
               <option value="Low">Low</option>
             </select>
@@ -69,144 +70,37 @@
         </span>
       </div>
   </div>
-  <div id="overlay">
-    <div class="overlay-content">
-        <span id="close-btn" onclick="off_Overlay()">&times;</span>
-        <h2>Create Task</h2>
-        <span>
-          <label for="task-name">Task Name:</label>
-          <input type="text" name="task_name" id="task_name" required autocomplete="off">
-        </span>
-        <span>
-          <label for="task-description">Task Description:</label>
-          <input type="text" name="task_description" id="task_description" required autocomplete="off">
-        </span>
-        <span>
-          <label for="task-due-date">Due Date:</label>
-          <input type="date" name="task_due_date" id="task_due_date" required autocomplete="off">
-        </span>
-        <span>
-          <label for="task-status">Status:</label>
-          <select name="task_status" id="task_status">
-            <option value="Not Started">Not Started</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Completed">Completed</option>
-          </select>
-        </span>
-        <span>
-          <label for="task-priority">Priority:</label>
-          <select name="task_priority" id="task_priority">
-            <option value="Urgent">Urgent</option>
-            <option value="Normal">Normal</option>
-            <option value="Low">Low</option>
-          </select>
-      <span>
-          <input type="button" id="sumbit_task_button" value="Create Task" onclick="create_task()">
-      </span>
-    </div>
-</div>
-<div id="overlay">
-      <div class="overlay-content">
-          <span id="close-btn" onclick="off_Overlay()">&times;</span>
-          <h2>Create Task</h2>
-          <span>
-            <label for="task-name">Task Name:</label>
-            <input type="text" name="task_name" id="task_name" required autocomplete="off">
-          </span>
-          <span>
-            <label for="task-description">Task Description:</label>
-            <input type="text" name="task_description" id="task_description" required autocomplete="off">
-          </span>
-          <span>
-            <label for="task-due-date">Due Date:</label>
-            <input type="date" name="task_due_date" id="task_due_date" required autocomplete="off">
-          </span>
-          <span>
-            <label for="task-status">Status:</label>
-            <select name="task_status" id="task_status">
-              <option value="Not Started">Not Started</option>
-              <option value="In Progress">In Progress</option>
-              <option value="Completed">Completed</option>
-            </select>
-          </span>
-          <span>
-            <label for="task-priority">Priority:</label>
-            <select name="task_priority" id="task_priority">
-              <option value="Urgent">Urgent</option>
-              <option value="Normal">Normal</option>
-              <option value="Low">Low</option>
-            </select>
-        <span>
-            <input type="button" id="sumbit_task_button" value="Create Task" onclick="create_task()">
-        </span>
-      </div>
-  </div>
-<div id="overlay">
-      <div class="overlay-content">
-          <span id="close-btn" onclick="off_Overlay()">&times;</span>
-          <h2>Create Task</h2>
-          <span>
-            <label for="task-name">Task Name:</label>
-            <input type="text" name="task_name" id="task_name" required autocomplete="off">
-          </span>
-          <span>
-            <label for="task-description">Task Description:</label>
-            <input type="text" name="task_description" id="task_description" required autocomplete="off">
-          </span>
-          <span>
-            <label for="task-due-date">Due Date:</label>
-            <input type="date" name="task_due_date" id="task_due_date" required autocomplete="off">
-          </span>
-          <span>
-            <label for="task-status">Status:</label>
-            <select name="task_status" id="task_status">
-              <option value="Not Started">Not Started</option>
-              <option value="In Progress">In Progress</option>
-              <option value="Completed">Completed</option>
-            </select>
-          </span>
-          <span>
-            <label for="task-priority">Priority:</label>
-            <select name="task_priority" id="task_priority">
-              <option value="Urgent">Urgent</option>
-              <option value="Urgent">High</option>
-              <option value="Normal">Normal</option>
-              <option value="Low">Low</option>
-            </select>
-        <span>
-            <input type="button" id="sumbit_task_button" value="Create Task" onclick="create_task()">
-        </span>
-      </div>
-  </div>
+
   <div id="overlay2">
       <div class="overlay-content">
           <span id="close-btn" onclick="off_Overlay2()">&times;</span>
           <h2>Edit Task</h2>
+          <span id="task_id2" name="task_id2" value="task_id2" hidden> </span>
           <span>
             <label for="task-name">Task Name:</label>
-            <input type="text" name="task_name" id="task_name" required autocomplete="off">
+            <input type="text" name="task_name2" id="task_name2" required autocomplete="off">
           </span>
           <span>
             <label for="task-description">Task Description:</label>
-            <input type="text" name="task_description" id="task_description" required autocomplete="off">
+            <input type="text" name="task_description2" id="task_description2" required autocomplete="off">
           </span>
           <span>
             <label for="task-due-date">Due Date:</label>
-            <input type="date" name="task_due_date" id="task_due_date" required autocomplete="off">
+            <input type="date" name="task_due_date2" id="task_due_date2" required autocomplete="off">
           </span>
           <span>
-            <label for="task-status">Status:</label>
-            <select name="task_status" id="task_status">
+            <label for="task-status2">Status:</label>
+            <select name="task_status2" id="task_status2">
               <option value="Not Started">Not Started</option>
               <option value="In Progress">In Progress</option>
               <option value="Completed">Completed</option>
             </select>
           </span>
           <span>
-            <label for="task-priority">Priority:</label>
-            <select name="task_priority" id="task_priority">
+            <label for="task-priority2">Priority:</label>
+            <select name="task_priority2" id="task_priority2">
               <option value="Urgent">Urgent</option>
-              <option value="Urgent">High</option>
+              <option value="High">High</option>
               <option value="Normal">Normal</option>
               <option value="Low">Low</option>
             </select>
@@ -224,9 +118,9 @@
                 <th>Task Name</th>
                 <th>Task Description</th>
                 <th>Created By</th>
+                <th>Task Status</th>
                 <th>Priority</th>
                 <th>Task Due</th>
-                <th>Task Status</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -284,20 +178,59 @@
             console.error('Error during task creation:', error);
         });
     }
-    function edit_button(task_id){
-               
+    function edit_task() {
+        const task_id = document.getElementById('task_id2').value;
+        const taskName = document.getElementById('task_name2').value;
+        const taskDescription = document.getElementById('task_description2').value;
+        const taskDueDate = document.getElementById('task_due_date2').value;
+        const task_status = document.getElementById('task_status2').value;
+        const task_priority = document.getElementById('task_priority2').value;
         const formData = new FormData();
         formData.append('task_id', task_id);
-        fetch('/edit_check_task', {
+        formData.append('task_name', taskName);
+        formData.append('task_description', taskDescription);
+        formData.append('task_due_date', taskDueDate);
+        formData.append('task_status', task_status);
+        formData.append('task_priority', task_priority);
+        fetch('/edit_task', {
             method: 'POST',
             body: formData
         })
-        on_Overlay2(response => {
+        .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             return response.text(); 
         })
+        .then(data => {
+            console.log('Task edited successfully:', data);
+            off_Overlay2();            
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error during task edit:', error);
+        });
+    }
+    function edit_button(task_id) {
+      const formData = new FormData();
+      formData.append('task_id', task_id);
+
+      fetch('/edit_check_task', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json(); // Parse the response as JSON
+      })
+      .then(data => {
+        on_Overlay2(data);
+      })
+      .catch(error => {
+        console.error('Error during fetch request:', error);
+      });
     }
     function submit_edit(){
 
@@ -322,13 +255,14 @@
             }
             return response.text(); 
         })
-        .then(data => {
+        .then(data => { data.json()
             console.log('Task deleted successfully:', data);
             location.reload();
         })
         .catch(error => {
             console.error('Error during task deletion:', error);
         });
+
     }
     
 
@@ -348,20 +282,21 @@
     function on_Overlay() {
       document.getElementById("overlay").style.display = "block";
     }
-    function on_Overlay2() {
+    function on_Overlay2(response) {
       document.getElementById("overlay2").style.display = "block";
+      document.getElementById("task_id2").value = response[0][0];
+      document.getElementById("task_name2").value = response[0][1];
+      document.getElementById("task_description2").value = response[0][2];
+      document.getElementById("task_due_date2").value = response[0][5];
+      document.getElementById("task_status2").value = response[0][6];
+      document.getElementById("task_priority2").value = response[0][7];
     }
 
     function off_Overlay() {
       document.getElementById("overlay").style.display = "none";
     }    
-    function off_Overlay2(response) {
+    function off_Overlay2() {
       document.getElementById("overlay2").style.display = "none";
-      document.getElementById("task_name").value = response.task_name;
-      document.getElementById("task_description").value = response.task_description;
-      document.getElementById("task_due_date").value = response.task_due_date;
-      document.getElementById("task_status").value = response.task_status;
-      document.getElementById("task_priority").value = response.task_priority;
     }
 
 
