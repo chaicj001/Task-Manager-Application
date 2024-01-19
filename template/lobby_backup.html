@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lobby</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}">
+    <link rel="stylesheet" type="text/css" href="static/general.css">
+    <link rel="stylesheet" type="text/css" href="static/lobby.css">
+    
+  </head>
+  <style>
+    body { background-image: url('{{ url_for("static", filename="image/" + background_image) }}') }
+  </style>
+  <body>
+    <header>
+      <div class="header-container">
+        <div class="logo-container">
+          <a href="/lobby">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="App Logo">
+          </a>
+        </div>
+        <div class="header-container">
+          <span id="time-text">Current Time:</span>
+          <span id="current-time"> </span>
+          <span id="logout-btn" onclick="logout()">Logout</span>
+        </div>
+      </div>
+    </header>  
+
+<body>
+    <h1>Welcome to the Lobby, {{ username }}!</h1>
+    <form method="POST"> 
+        <input type="button" id="create-task" value="Create" onclick="on_Overlay()">
+        <input type="text" id="search-text"">
+        <input type="button" id="search" value="Search" onclick="search()">
+    </form>
+    <div id="overlay">
+      <div class="overlay-content">
+          <span id="close-btn" onclick="off_Overlay()">&times;</span>
+          <h2>Create Task</h2>
+          <span>
+            <label for="task-name">Task Name:</label>
+            <input type="text" name="task_name" id="task_name" required autocomplete="off">
+          </span>
+          <span>
+            <label for="task-description">Task Description:</label>
+            <input type="text" name="task_description" id="task_description" required autocomplete="off">
+          </span>
+          <span>
+            <label for="task-due-date">Due Date:</label>
+            <input type="date" name="task_due_date" id="task_due_date" required autocomplete="off">
+          </span>
+          <span>
+            <label for="task-status">Status:</label>
+            <select name="task_status" id="task_status">
+              <option value="Not Started">Not Started</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </span>
+          <span>
+            <label for="task-priority">Priority:</label>
+            <select name="task_priority" id="task_priority">
+              <option value="Urgent">Urgent</option>
+              <option value="High">High</option>
+              <option value="Normal">Normal</option>
+              <option value="Low">Low</option>
+            </select>
+        <span>
+            <input type="button" id="sumbit_task_button" value="Create Task" onclick="create_task()">
+        </span>
+      </div>
+  </div>
+
+  <div id="overlay2">
+      <div class="overlay-content">
+          <span id="close-btn" onclick="off_Overlay2()">&times;</span>
+          <h2>Edit Task</h2>
+          <span id="task_id2" name="task_id2" value="task_id2" hidden> </span>
+          <span>
+            <label for="task-name">Task Name:</label>
+            <input type="text" name="task_name2" id="task_name2" required autocomplete="off">
+          </span>
+          <span>
+            <label for="task-description">Task Description:</label>
+            <input type="text" name="task_description2" id="task_description2" required autocomplete="off">
+          </span>
+          <span>
+            <label for="task-due-date">Due Date:</label>
+            <input type="date" name="task_due_date2" id="task_due_date2" required autocomplete="off">
+          </span>
+          <span>
+            <label for="task-status2">Status:</label>
+            <select name="task_status2" id="task_status2">
+              <option value="Not Started">Not Started</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </span>
+          <span>
+            <label for="task-priority2">Priority:</label>
+            <select name="task_priority2" id="task_priority2">
+              <option value="Urgent">Urgent</option>
+              <option value="High">High</option>
+              <option value="Normal">Normal</option>
+              <option value="Low">Low</option>
+            </select>
+        <span>
+            <input type="button" id="update_task_button" value="Edit Task" onclick="edit_task()">
+        </span>
+      </div>
+
+  </div>
+  <div>
+    <h2>Available Tasks:</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Task Name</th>
+                <th>Task Description</th>
+                <th>Created By</th>
+                <th>Task Status</th>
+                <th>Priority</th>
+                <th>Task Due</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+                <tr>
+                    <td>{{ task[1] }}</td>
+                    <td>{{ task[2] }}</td>
+                    <td>{{ task[4] }}</td>
+                    <td>{{ task[6] }}</td>
+                    <td>{{ task[7] }}</td>
+                    <td>{{ task[5] }}</td>
+                    <td><span id="edit-btn" onclick="edit_button('{{ task[0] }}')">Edit</span>
+                    <span id="delete-btn" onclick="delete_button('{{ task[0] }}')">Delete</span></td>
+                    </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+<script>
+    function logout() {
+            window.location.replace('/logout');
+        }
+    function create_task() {
+        const taskName = document.getElementById('task_name').value;
+        const taskDescription = document.getElementById('task_description').value;
+        const taskDueDate = document.getElementById('task_due_date').value;
+        const task_status = document.getElementById('task_status').value;
+        const task_priority = document.getElementById('task_priority').value;
+
+        const formData = new FormData();
+        formData.append('task_name', taskName);
+        formData.append('task_description', taskDescription);
+        formData.append('task_due_date', taskDueDate);
+        formData.append('task_status', task_status);
+        formData.append('task_priority', task_priority);
+
+        fetch('/create_task', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text(); 
+        })
+        .then(data => {
+            console.log('Task created successfully:', data);
+            off_Overlay();            
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error during task creation:', error);
+        });
+    }
+    function edit_task() {
+        const task_id = document.getElementById('task_id2').value;
+        const taskName = document.getElementById('task_name2').value;
+        const taskDescription = document.getElementById('task_description2').value;
+        const taskDueDate = document.getElementById('task_due_date2').value;
+        const task_status = document.getElementById('task_status2').value;
+        const task_priority = document.getElementById('task_priority2').value;
+        const formData = new FormData();
+        formData.append('task_id', task_id);
+        formData.append('task_name', taskName);
+        formData.append('task_description', taskDescription);
+        formData.append('task_due_date', taskDueDate);
+        formData.append('task_status', task_status);
+        formData.append('task_priority', task_priority);
+        fetch('/edit_task', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text(); 
+        })
+        .then(data => {
+            console.log('Task edited successfully:', data);
+            off_Overlay2();            
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error during task edit:', error);
+        });
+    }
+    function edit_button(task_id) {
+      const formData = new FormData();
+      formData.append('task_id', task_id);
+
+      fetch('/edit_check_task', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json(); // Parse the response as JSON
+      })
+      .then(data => {
+        on_Overlay2(data);
+      })
+      .catch(error => {
+        console.error('Error during fetch request:', error);
+      });
+    }
+    function submit_edit(){
+
+    }
+    function delete_button(task_id) {
+        const taskName = document.getElementById('task_name').value;
+        const taskDescription = document.getElementById('task_description').value;
+        const taskDueDate = document.getElementById('task_due_date').value;
+
+        const formData = new FormData();
+        formData.append('task_id', task_id);
+        formData.append('task_name', taskName);
+        formData.append('task_description', taskDescription);
+        formData.append('task_due_date', taskDueDate);
+        fetch('/delete_task', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text(); 
+        })
+        .then(data => { data.json()
+            console.log('Task deleted successfully:', data);
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error during task deletion:', error);
+        });
+
+    }
+    
+
+    function updateCurrentTime() {
+        const currentTimeElement = document.getElementById('current-time');
+        const currentTime = new Date();
+        // Format the time (adjust the format as needed)
+        const formattedTime = currentTime.toLocaleTimeString();
+        // Update the content of the span element
+        currentTimeElement.textContent = formattedTime;
+    }
+
+    // Call the function to update the time when the page loads
+    document.addEventListener('DOMContentLoaded', updateCurrentTime);
+    setInterval(updateCurrentTime, 1000);
+
+    function on_Overlay() {
+      document.getElementById("overlay").style.display = "block";
+    }
+    function on_Overlay2(response) {
+      document.getElementById("overlay2").style.display = "block";
+      document.getElementById("task_id2").value = response[0][0];
+      document.getElementById("task_name2").value = response[0][1];
+      document.getElementById("task_description2").value = response[0][2];
+      document.getElementById("task_due_date2").value = response[0][5];
+      document.getElementById("task_status2").value = response[0][6];
+      document.getElementById("task_priority2").value = response[0][7];
+    }
+
+    function off_Overlay() {
+      document.getElementById("overlay").style.display = "none";
+    }    
+    function off_Overlay2() {
+      document.getElementById("overlay2").style.display = "none";
+    }
+
+
+</script>
+</html>

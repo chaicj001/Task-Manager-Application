@@ -3,14 +3,12 @@
   <head>
     <title> Login </title>
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login.css') }}">
-    <script >
-      
-    </script>
+    <link rel="stylesheet" type="text/css" href="static/general.css">
+    <link rel="stylesheet" type="text/css" href="static/index.css">
   </head>
   <body>
     <div class="container">
-      <h1>Enter your username</h1>
+      <h1>Login</h1>
       <form method="POST" action="{{ url_for('login') }}">
         <label for="username">Username:</label>
         <input type="text" name="username" id="username" required autocomplete="off">

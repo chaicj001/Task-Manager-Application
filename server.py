@@ -106,7 +106,7 @@ def edit_task():
     priority = request.form.get('task_priority') 
     app.logger.info(f'Task: {task}, Description: {desc}, User: {username}, task_id: {id}')   
     cursor = mydb.cursor()
-    cursor.execute('UPDATE task SET task_name = %s, task_description = %s, task_created_by = %s, task_due_by = %s, task_status = %s, task_priority = %s WHERE task_id = %s', (task, desc ,username, due, status, priority, id))
+    cursor.execute('UPDATE task SET task_name = %s, task_description = %s, task_due_by = %s, task_status = %s, task_priority = %s WHERE task_id = %s', (task, desc, due, status, priority, id))
     mydb.commit()
     cursor.close()
     return redirect(url_for('lobby'))

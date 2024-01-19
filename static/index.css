@@ -1,0 +1,73 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f5f5f5; /* Set a background color for the body */
+  }
+  
+  .container {
+    text-align: center;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff; /* White background color */
+    transition: transform 0.3s ease; /* Add a smooth transition effect */
+  }
+  
+  .container:hover {
+    transform: scale(1.02); /* Enlarge the container on hover */
+  }
+  
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333333; /* Dark text color */
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  label {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #555555; /* Medium gray text color */
+  }
+  
+  input {
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #cccccc; /* Light gray border */
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s ease; /* Add a smooth transition effect */
+  }
+  
+  input:focus {
+    border-color: #3498db; /* Highlight border color on focus */
+  }
+  
+  button {
+    padding: 12px 20px;
+    background-color: #3498db; /* Button background color */
+    color: #ffffff; /* Button text color */
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Add a smooth transition effect */
+  }
+  
+  button:hover {
+    background-color: #2077c8; /* Darker background color on hover */
+  }
+  
+  .error-message {
+    color: #e74c3c; /* Red color for error messages */
+    margin-top: 20px;
+  }
+  
