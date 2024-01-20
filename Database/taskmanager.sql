@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 19, 2024 at 05:52 AM
+-- Generation Time: Jan 20, 2024 at 09:19 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `task` (
   `task_id` varchar(20) NOT NULL,
   `task_name` varchar(90) NOT NULL,
-  `task_description` varchar(96) NOT NULL,
+  `task_description` varchar(255) NOT NULL,
   `task_created_time` datetime NOT NULL DEFAULT current_timestamp(),
   `task_created_by` varchar(20) NOT NULL,
   `task_due_by` date NOT NULL,
@@ -45,10 +45,13 @@ CREATE TABLE `task` (
 INSERT INTO `task` (`task_id`, `task_name`, `task_description`, `task_created_time`, `task_created_by`, `task_due_by`, `task_status`, `task_priority`) VALUES
 ('TASK-01', 'zoom meeeting with shareholder', 'prepare for shareholder F&Q', '2024-01-18 12:31:33', 'admin', '2024-01-29', 'In Progress', 'High'),
 ('TASK-02', 'general meeting', 'with all the stakeholder', '2024-01-18 16:14:42', 'admin', '2024-01-08', 'Completed', 'Normal'),
-('TASK-03', 'decoration for annual meeting ', 'prepare for decoration', '2024-01-19 12:06:00', 'admin', '2024-01-31', 'Not Started', 'High'),
+('TASK-03', 'decoration for annual meeting ', 'prepare for decoration', '2024-01-19 12:06:00', 'admin', '2024-01-31', 'In Progress', 'High'),
 ('TASK-04', 'Coffee machine purchase', 'buy a coffee machine for pantry', '2024-01-19 12:15:14', 'admin', '2024-02-29', 'In Progress', 'Low'),
 ('TASK-05', 'Company Gathering', 'Gathering at the Singapore River', '2024-01-19 12:22:59', 'Saerah ', '2024-02-11', 'Not Started', 'High'),
-('TASK-06', 'Office Discussion ', 'Discussion by each department head', '2024-01-19 12:24:52', 'Saerah ', '2024-01-19', 'Not Started', 'Urgent');
+('TASK-06', 'Office Discussion ', 'Discussion by each department head', '2024-01-19 12:24:52', 'Saerah ', '2024-01-19', 'Not Started', 'Urgent'),
+('TASK-07', 'Monthly Progress Checkup', 'Check with all the director', '2024-01-20 11:12:20', 'admin', '2024-02-20', 'In Progress', 'Normal'),
+('TASK-08', 'Close the first quarter order', 'Accounting department and finance department need to cooperate for checking the closing balance', '2024-01-20 15:06:33', 'ru', '2024-03-31', 'Not Started', 'Normal'),
+('TASK-09', 'Aircon Service', 'Maintenance team need to do cleaning service before cny', '2024-01-20 15:08:25', 'Edward', '2024-02-09', 'Not Started', 'Low');
 
 --
 -- Triggers `task`
