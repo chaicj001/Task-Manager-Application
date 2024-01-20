@@ -111,6 +111,51 @@ def edit_task():
     cursor.close()
     return redirect(url_for('lobby'))
 
+@app.route('/sort_priority/<order>', methods=['POST'])
+def sort_priority(order):
+    if order == 'asc':
+        query = 'SELECT * FROM task ORDER BY CASE WHEN task_priority = "Urgent" THEN 1 WHEN task_priority = "High" THEN 2 WHEN task_priority = "Normal" THEN 3 WHEN task_priority = "Low" THEN 4 END ASC'   
+    elif order == 'dsc':
+        query = 'SELECT * FROM task ORDER BY CASE WHEN task_priority = "Urgent" THEN 1 WHEN task_priority = "High" THEN 2 WHEN task_priority = "Normal" THEN 3 WHEN task_priority = "Low" THEN 4 END DESC'  
+    else:
+        query = 'SELECT * FROM task'
+    
+    cursor = mydb.cursor()
+    cursor.execute(query)
+    data = cursor.fetchall()
+    cursor.close()
+    return jsonify(data)
+
+@app.route('/sort_status/<order>', methods=['POST'])
+def sort_status(order):
+    if order == 'asc':
+        query = 'SELECT * FROM task ORDER BY CASE WHEN task_status = "Not Started" THEN 1 WHEN task_status = "In Progress" THEN 2 WHEN task_status = "Completed" THEN 3 END DESC'   
+    elif order == 'dsc':
+        query = 'SELECT * FROM task ORDER BY CASE WHEN task_status = "Not Started" THEN 1 WHEN task_status = "In Progress" THEN 2 WHEN task_status = "Completed" THEN 3 END ASC'
+    else:
+        query = 'SELECT * FROM task'
+    
+    cursor = mydb.cursor()
+    cursor.execute(query)
+    data = cursor.fetchall()
+    cursor.close()
+    return jsonify(data)
+
+@app.route('/sort_due/<order>', methods=['POST'])
+def sort_due(order):
+    if order == 'asc':
+        query = 'SELECT * FROM task ORDER BY task_due_by ASC'   
+    elif order == 'dsc':
+        query = 'SELECT * FROM task ORDER BY task_due_by DESC'
+    else:
+        query = 'SELECT * FROM task'
+    
+    cursor = mydb.cursor()
+    cursor.execute(query)
+    data = cursor.fetchall()
+    cursor.close()
+    return jsonify(data)
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
     print("Server running on port 5000")

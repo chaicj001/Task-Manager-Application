@@ -10,7 +10,260 @@
 </head>
 <style>
     body { background-image: url('{{ url_for("static", filename="image/" + background_image) }}') }
-</style>
+</style>    
+<script>
+    function logout() {
+            window.location.replace('/logout');
+        }
+    function create_task() {
+        const taskName = document.getElementById('task_name').value;
+        const taskDescription = document.getElementById('task_description').value;
+        const taskDueDate = document.getElementById('task_due_date').value;
+        const task_status = document.getElementById('task_status').value;
+        const task_priority = document.getElementById('task_priority').value;
+
+        const formData = new FormData();
+        formData.append('task_name', taskName);
+        formData.append('task_description', taskDescription);
+        formData.append('task_due_date', taskDueDate);
+        formData.append('task_status', task_status);
+        formData.append('task_priority', task_priority);
+
+        fetch('/create_task', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text(); 
+        })
+        .then(data => {
+            console.log('Task created successfully:', data);
+            off_Overlay();            
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error during task creation:', error);
+        });
+    }
+    function edit_task() {
+        const task_id = document.getElementById('task_id2').value;
+        const taskName = document.getElementById('task_name2').value;
+        const taskDescription = document.getElementById('task_description2').value;
+        const taskDueDate = document.getElementById('task_due_date2').value;
+        const task_status = document.getElementById('task_status2').value;
+        const task_priority = document.getElementById('task_priority2').value;
+        const formData = new FormData();
+        formData.append('task_id', task_id);
+        formData.append('task_name', taskName);
+        formData.append('task_description', taskDescription);
+        formData.append('task_due_date', taskDueDate);
+        formData.append('task_status', task_status);
+        formData.append('task_priority', task_priority);
+        fetch('/edit_task', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text(); 
+        })
+        .then(data => {
+            console.log('Task edited successfully:', data);
+            off_Overlay2();            
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error during task edit:', error);
+        });
+    }
+    function edit_button(task_id) {
+      const formData = new FormData();
+      formData.append('task_id', task_id);
+
+      fetch('/edit_check_task', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json(); // Parse the response as JSON
+      })
+      .then(data => {
+        on_Overlay2(data);
+      })
+      .catch(error => {
+        console.error('Error during fetch request:', error);
+      });
+    }
+
+    function delete_button(task_id) {
+        const taskName = document.getElementById('task_name').value;
+        const taskDescription = document.getElementById('task_description').value;
+        const taskDueDate = document.getElementById('task_due_date').value;
+
+        const formData = new FormData();
+        formData.append('task_id', task_id);
+        formData.append('task_name', taskName);
+        formData.append('task_description', taskDescription);
+        formData.append('task_due_date', taskDueDate);
+        fetch('/delete_task', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text(); 
+        })
+        .then(data => { 
+            console.log('Task deleted successfully:', data);
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error during task deletion:', error);
+        });
+
+    }
+    
+
+    function updateCurrentTime() {
+        const currentTimeElement = document.getElementById('current-time');
+        const currentTime = new Date();
+        // Format the time (adjust the format as needed)
+        const formattedTime = currentTime.toLocaleTimeString();
+        // Update the content of the span element
+        currentTimeElement.textContent = formattedTime;
+    }
+
+    // Call the function to update the time when the page loads
+    document.addEventListener('DOMContentLoaded', updateCurrentTime);
+    setInterval(updateCurrentTime, 1000);
+
+    function on_Overlay() {
+      document.getElementById("overlay").style.display = "block";
+    }
+    function on_Overlay2(response) {
+      a= new Date(response[0][5]);
+      document.getElementById("overlay2").style.display = "block";
+      document.getElementById("task_id2").value = response[0][0];
+      document.getElementById("task_name2").value = response[0][1];
+      document.getElementById("task_description2").value = response[0][2];
+      document.getElementById("task_due_date2").value = a.toISOString().split('T')[0];
+      document.getElementById("task_status2").value = response[0][6];
+      document.getElementById("task_priority2").value = response[0][7];
+    }
+
+    function off_Overlay() {
+      document.getElementById("overlay").style.display = "none";
+    }    
+    function off_Overlay2() {
+      document.getElementById("overlay2").style.display = "none";
+    }
+    function sortPriority(order) {
+      fetch('/sort_priority/'+order, {
+        method: 'POST',
+      })
+      .then(response => {
+          if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json()
+        
+      })
+      .then(data => {
+        console.log('Data received:', data);
+          updateTaskTable(data);
+      })
+      .catch(error => {
+        console.error('Error during fetch request:', error);
+      });
+    } 
+    function sortStatus(order) {
+      fetch('/sort_status/'+order, {
+        method: 'POST',
+      })
+      .then(response => {
+          if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json()
+        
+      })
+      .then(data => {
+        console.log('Data received:', data);
+          updateTaskTable(data);
+      })
+      .catch(error => {
+        console.error('Error during fetch request:', error);
+      });
+    }
+    function sortDue(order) {
+      fetch('/sort_due/'+order, {
+        method: 'POST',
+      })
+      .then(response => {
+          if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json()
+        
+      })
+      .then(data => {
+        console.log('Data received:', data);
+          updateTaskTable(data);
+      })
+      .catch(error => {
+        console.error('Error during fetch request:', error);
+      });
+    }
+  function updateTaskTable(tasks) {
+      const tableBody = document.querySelector('.tasks-table tbody');
+      // Clear existing table rows
+      tableBody.innerHTML = '';
+
+      const now = new Date();
+      const current_now = Date.parse(now);
+
+      // Iterate through the tasks and append rows to the table
+      tasks.forEach(task => {
+          const newRow = document.createElement('tr');
+          const timestamp = Date.parse(task[5]);
+          const date = new Date(timestamp);
+          const year = date.getFullYear();
+          const month = date.getMonth() + 1; 
+          const day = date.getDate();
+          const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+          
+          const isCompleted = task[6] === 'Completed';
+          const statusCellClass = isCompleted ? 'completed-task' : ''; 
+          const dueDateCheck = timestamp< current_now ? 'overdue-task' : '';       
+          newRow.innerHTML = `
+              <td>${task[1]}</td>
+              <td>${task[2]}</td>
+              <td>${task[4]}</td>
+              <td class="${statusCellClass}">${task[6]}</td>
+              <td>${task[7]}</td>
+              <td class="${dueDateCheck}">${formattedDate}</td>
+              <td>
+                  <button class="action-button" onclick="edit_button('${task[0]}')">Edit</button>
+                  <button class="action-button" onclick="delete_button('${task[0]}')">Delete</button>
+              </td>
+          `;
+          tableBody.appendChild(newRow);
+      });
+  }
+
+
+
+</script>
 <body>
     <header class="header-container">
         <div class="logo-container">
@@ -111,199 +364,40 @@
         </div>
 
         <div class="tasks-container">
-            <h2>Available Tasks:</h2>
             <table class="tasks-table">
                 <thead>
                     <tr>
                         <th>Task Name</th>
                         <th>Task Description</th>
                         <th>Created By</th>
-                        <th>Task Status</th>
-                        <th>Priority</th>
-                        <th>Task Due</th>
+                        <th>
+                            Task Status
+                            <button class="sort-button up"  onclick="sortStatus('asc')"></button>
+                            <button class="sort-button down" onclick="sortStatus('dsc')"></button>
+                        </th>
+                        <th>
+                            Priority
+                            <button class="sort-button up"  onclick="sortPriority('asc')"></button>
+                            <button class="sort-button down" onclick="sortPriority('dsc')"></button>
+                        </th>
+                        <th>
+                            Task Due
+                            <button class="sort-button up"  onclick="sortDue('asc')"></button>
+                            <button class="sort-button down" onclick="sortDue('dsc')"></button>
+                        </th>
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {% for task in tasks %}
-                        <tr>
-                            <td>{{ task[1] }}</td>
-                            <td>{{ task[2] }}</td>
-                            <td>{{ task[4] }}</td>
-                            <td>{{ task[6] }}</td>
-                            <td>{{ task[7] }}</td>
-                            <td>{{ task[5] }}</td>
-                            <td>
-                                <button class="action-button" onclick="edit_button('{{ task[0] }}')">Edit</button>
-                                <button class="action-button" onclick="delete_button('{{ task[0] }}')">Delete</button>
-                            </td>
-                        </tr>
-                    {% endfor %}
+                <tbody id="tasks-tbody">
+                    <script>
+                        const tasksData = {{ tasks|tojson|safe }};
+                        updateTaskTable(tasksData);
+                    </script>
                 </tbody>
             </table>
         </div>
     </div>
 
-    <script>
-      function logout() {
-              window.location.replace('/logout');
-          }
-      function create_task() {
-          const taskName = document.getElementById('task_name').value;
-          const taskDescription = document.getElementById('task_description').value;
-          const taskDueDate = document.getElementById('task_due_date').value;
-          const task_status = document.getElementById('task_status').value;
-          const task_priority = document.getElementById('task_priority').value;
-  
-          const formData = new FormData();
-          formData.append('task_name', taskName);
-          formData.append('task_description', taskDescription);
-          formData.append('task_due_date', taskDueDate);
-          formData.append('task_status', task_status);
-          formData.append('task_priority', task_priority);
-  
-          fetch('/create_task', {
-              method: 'POST',
-              body: formData
-          })
-          .then(response => {
-              if (!response.ok) {
-                  throw new Error('Network response was not ok');
-              }
-              return response.text(); 
-          })
-          .then(data => {
-              console.log('Task created successfully:', data);
-              off_Overlay();            
-              location.reload();
-          })
-          .catch(error => {
-              console.error('Error during task creation:', error);
-          });
-      }
-      function edit_task() {
-          const task_id = document.getElementById('task_id2').value;
-          const taskName = document.getElementById('task_name2').value;
-          const taskDescription = document.getElementById('task_description2').value;
-          const taskDueDate = document.getElementById('task_due_date2').value;
-          const task_status = document.getElementById('task_status2').value;
-          const task_priority = document.getElementById('task_priority2').value;
-          const formData = new FormData();
-          formData.append('task_id', task_id);
-          formData.append('task_name', taskName);
-          formData.append('task_description', taskDescription);
-          formData.append('task_due_date', taskDueDate);
-          formData.append('task_status', task_status);
-          formData.append('task_priority', task_priority);
-          fetch('/edit_task', {
-              method: 'POST',
-              body: formData
-          })
-          .then(response => {
-              if (!response.ok) {
-                  throw new Error('Network response was not ok');
-              }
-              return response.text(); 
-          })
-          .then(data => {
-              console.log('Task edited successfully:', data);
-              off_Overlay2();            
-              location.reload();
-          })
-          .catch(error => {
-              console.error('Error during task edit:', error);
-          });
-      }
-      function edit_button(task_id) {
-        const formData = new FormData();
-        formData.append('task_id', task_id);
-  
-        fetch('/edit_check_task', {
-          method: 'POST',
-          body: formData
-        })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json(); // Parse the response as JSON
-        })
-        .then(data => {
-          on_Overlay2(data);
-        })
-        .catch(error => {
-          console.error('Error during fetch request:', error);
-        });
-      }
-      function submit_edit(){
-  
-      }
-      function delete_button(task_id) {
-          const taskName = document.getElementById('task_name').value;
-          const taskDescription = document.getElementById('task_description').value;
-          const taskDueDate = document.getElementById('task_due_date').value;
-  
-          const formData = new FormData();
-          formData.append('task_id', task_id);
-          formData.append('task_name', taskName);
-          formData.append('task_description', taskDescription);
-          formData.append('task_due_date', taskDueDate);
-          fetch('/delete_task', {
-              method: 'POST',
-              body: formData
-          })
-          .then(response => {
-              if (!response.ok) {
-                  throw new Error('Network response was not ok');
-              }
-              return response.text(); 
-          })
-          .then(data => { data.json()
-              console.log('Task deleted successfully:', data);
-              location.reload();
-          })
-          .catch(error => {
-              console.error('Error during task deletion:', error);
-          });
-  
-      }
-      
-  
-      function updateCurrentTime() {
-          const currentTimeElement = document.getElementById('current-time');
-          const currentTime = new Date();
-          // Format the time (adjust the format as needed)
-          const formattedTime = currentTime.toLocaleTimeString();
-          // Update the content of the span element
-          currentTimeElement.textContent = formattedTime;
-      }
-  
-      // Call the function to update the time when the page loads
-      document.addEventListener('DOMContentLoaded', updateCurrentTime);
-      setInterval(updateCurrentTime, 1000);
-  
-      function on_Overlay() {
-        document.getElementById("overlay").style.display = "block";
-      }
-      function on_Overlay2(response) {
-        a= new Date(response[0][5]);
-        document.getElementById("overlay2").style.display = "block";
-        document.getElementById("task_id2").value = response[0][0];
-        document.getElementById("task_name2").value = response[0][1];
-        document.getElementById("task_description2").value = response[0][2];
-        document.getElementById("task_due_date2").value = a.toISOString().split('T')[0];
-        document.getElementById("task_status2").value = response[0][6];
-        document.getElementById("task_priority2").value = response[0][7];
-      }
-  
-      function off_Overlay() {
-        document.getElementById("overlay").style.display = "none";
-      }    
-      function off_Overlay2() {
-        document.getElementById("overlay2").style.display = "none";
-      }
-  
-  
-  </script>
+
 </body>
 </html>

@@ -94,3 +94,40 @@ body {
 .tasks-table th {
   background-color: #f2f2f2;
 }
+
+.completed-task {
+  color: green;
+}
+
+.overdue-task {
+  color: red;
+}
+
+
+button.sort-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+}
+
+/* Styles for the up arrow */
+button.sort-button.up::before {
+  content: "▲";
+  margin-right: 5px; /* Adjust spacing as needed */
+}
+
+/* Styles for the down arrow */
+button.sort-button.down::before {
+  content: "▼";
+  margin-right: 5px; /* Adjust spacing as needed */
+}
+
+/* Hover effect for the buttons */
+button.sort-button:hover {
+  background-color: #f0f0f0; /* Change color as needed */
+}
+
