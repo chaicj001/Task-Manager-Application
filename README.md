@@ -35,9 +35,6 @@ This application allows users to manage their tasks efficiently.
 
 Instead of relying on the default browser 404 page, a custom 404 error page is designed for an improved user experience.
 
-## Developer
-
-- Developed by ChekJu.
 
 ## Main Functionalities
 
@@ -47,3 +44,6 @@ Instead of relying on the default browser 404 page, a custom 404 error page is d
 
 For support or feedback, contact the developer: [GitHub Profile](https://github.com/cjchai001).
 
+## Developer
+
+- Developed by ChekJu.
